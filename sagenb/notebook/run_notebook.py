@@ -366,13 +366,17 @@ import sys, os, random
 SAGE_ROOT = r'%(SAGE_ROOT)s'
 SAGE_LOCAL = os.path.join(SAGE_ROOT, 'local')
 SAGE_SHARE = os.path.join(SAGE_LOCAL, 'share')
+SAGE_BIN = os.path.join(SAGE_LOCAL, 'bin')
 
 INTERP = os.path.join(SAGE_LOCAL, 'bin', 'python')
 
 if sys.executable != INTERP:
     os.execl(INTERP, INTERP, *sys.argv)
 
-os.environ['PATH'] = os.path.join(SAGE_LOCAL, 'bin') + os.pathsep + os.environ['PATH']
+if not 'PATH' in os.environ:
+    os.environ['PATH'] = SAGE_BIN
+else:
+    os.environ['PATH'] = SAGE_BIN + os.pathsep + os.environ['PATH']
 
 os.environ['SAGE_ROOT'] = SAGE_ROOT
 os.environ['SAGE_LOCAL'] = SAGE_LOCAL
